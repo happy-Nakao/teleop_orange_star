@@ -8,8 +8,12 @@ def generate_launch_description():
             executable='base_joycon',
             name='base_joycon',
             output='screen',
-            parameters=[
-                {'l_scale': 0.6}, {'a_scale': 0.8},
-            ]
+        ),
+        Node(
+            package='joy',
+            namespace='joy_node',
+            executable='joy_node',
+            name='joy_node',
+            output='screen',
         ),
     ])

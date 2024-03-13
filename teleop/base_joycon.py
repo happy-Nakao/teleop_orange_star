@@ -17,18 +17,20 @@ class JoyCtrMegarover(Node):
     def __init__(self):
         super().__init__('base_joycon')
         # Publisher
-        self.vel_pub = self.create_publisher(Twist, "/cmd_vel", 10)
+        #仮想環境で行う際は /vmegarover/cmd_vel にする
+        self.vel_pub = self.create_publisher(Twist, "cmd_vel", 10)
         # Subscriber
         self.create_subscription(Joy, "joy", self.joyCB, qos_profile=10)
         # Value
         self.twist = Twist()
         self.linear = 1
         self.angular = 0
-        self.safety = 10
+        #三角ボタンを押している間、スティックで動作
+        self.safety = 2
         self.declare_parameter('l_scale', 0.6)
         self.declare_parameter('a_scale', 0.8)
-        self.l_scale = self.get_parameter("l_scale")
-        self.a_scale = self.get_parameter("a_scale")
+        self.l_scale = self.get_parameter("l_scale").value
+        self.a_scale = self.get_parameter("a_scale").value
 
     def joyCB(self, joy):
         if joy.buttons[self.safety]:
